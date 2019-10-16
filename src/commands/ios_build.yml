@@ -29,8 +29,13 @@ steps:
   - restore_cache:
       name: Restoring iOS Build caches
       keys:
-        - ios-build-cache-{{ arch }}-{{ checksum "~/.tmp/checksumfiles/package.json" }}-{{ .Environment.CACHE_VERSION }}
+        - ios-build-cache-{{ arch }}-{{ checksum "yarn.lock" }}-{{ .Environment.CACHE_VERSION }}
 
+  - run:
+      name: Build pod dependencies
+      command: |
+        cd apps/frontend/driver/ios && pod install --silent
+  
   - run:
       name: Build iOS App
       command: "export RCT_NO_LAUNCH_PACKAGER=true && xcodebuild -<<parameters.project_type>> <<parameters.project_path>> -destination 'platform=iOS Simulator,name=<<parameters.device>>' -scheme <<parameters.scheme>> -parallelizeTargets -configuration <<parameters.build_configuration>> -derivedDataPath <<parameters.derived_data_path>>  -UseModernBuildSystem=YES | xcpretty -k"
@@ -39,5 +44,5 @@ steps:
       name: Saving iOS Build Cache
       paths:
         - <<parameters.derived_data_path>>/Build
-      key: ios-build-cache-{{ arch }}-{{ checksum "~/.tmp/checksumfiles/package.json" }}-{{ .Environment.CACHE_VERSION }}
+      key: ios-build-cache-{{ arch }}-{{ checksum "yarn.lock" }}-{{ .Environment.CACHE_VERSION }}
       when: always

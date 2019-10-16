@@ -1,0 +1,7 @@
+description: Install Javascript dependencies using Yarn bootstrap. This command correctly configures the cache on the root level for the monorepo. 
+
+steps:
+  - run:
+      name: Lerna bootstrap without cache
+      description: Install dependencies for all libraries and projects
+      command: yarn bootstrap

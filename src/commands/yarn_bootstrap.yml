@@ -1,0 +1,16 @@
+description: Install Javascript dependencies using Yarn bootstrap. This command correctly configures the cache on the root level for the monorepo. 
+
+steps:
+  - restore_cache:
+      name: Restore Yarn Package Cache
+      keys:
+        - yarn-packages-{{ arch }}-{{ checksum "yarn.lock" }}
+  - run:
+      name: Lerna bootstrap
+      description: Install dependencies for all libraries and projects
+      command: yarn bootstrap
+  - save_cache:
+      name: Save Yarn Package Cache
+      key: yarn-packages-{{ arch }}-{{ checksum "yarn.lock" }}
+      paths:
+        - ~/.cache/yarn

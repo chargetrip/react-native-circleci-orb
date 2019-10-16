@@ -44,7 +44,7 @@ steps:
       steps:
         - attach_workspace:
             at: <<parameters.workspace_root>>
-  - yarn_install
+  - yarn_bootstrap
   - android_build:
       project_path: <<parameters.project_path>>
       build_type: <<parameters.build_type>>

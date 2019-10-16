@@ -1,9 +1,11 @@
 {
   "name": "@react-native-community/circleci-orb",
-  "version": "1.2.1",
+  "version": "dev:test",
   "private": true,
   "description": "A CircleCI Orb which can be used to simplify building and testing React Native apps.",
   "scripts": {
+    "validate": "circleci orb validate ./packed-orb.yml",
+    "publish:dev": "circleci orb publish ./packed-orb.yml chargetrip/react-native-circleci-orb@dev:test",
     "pack": "./scripts/pack.sh",
     "semantic-release": "semantic-release"
   },

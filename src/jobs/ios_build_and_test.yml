@@ -68,7 +68,7 @@ steps:
   - setup_macos_executor
   - ios_simulator_start:
         device: <<parameters.device>>
-  - yarn_install
+  - yarn_bootstrap_without_cache
   - when:
       condition: <<parameters.start_metro>>
       steps:
@@ -80,6 +80,9 @@ steps:
       build_configuration: <<parameters.build_configuration>>
       scheme: <<parameters.scheme>>
       project_type: <<parameters.project_type>>
-  - detox_test:
-      configuration: <<parameters.detox_configuration>>
-      loglevel: <<parameters.detox_loglevel>>
+  - when:
+      condition: <<parameters.detox_configuration>>
+      steps:
+        - detox_test:
+            configuration: <<parameters.detox_configuration>>
+            loglevel: <<parameters.detox_loglevel>>
